@@ -32,4 +32,4 @@ jobs:
 
       - name: Run Ruff linter
         run: |
-          poetry run ruff check git/src/main
+          poetry run ruff check git/src/main.py
