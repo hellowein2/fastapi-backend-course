@@ -1,7 +1,5 @@
 import json
 import os
-
-
 def load_books(filename='library.json'):
     """
     Загрузка списка книг из JSON-файла.
