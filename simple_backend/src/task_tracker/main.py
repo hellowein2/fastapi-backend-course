@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from storage import JSONStorage, CloudJSONStorage
-from models import Task, TaskCreate
+from models import Task
 from config import settings
 from clients import CloudFlareClient
 from typing import List
@@ -31,14 +31,14 @@ def get_tasks():
     return storage.list_tasks()
 
 @app.post("/tasks", response_model=Task)
-def create_task(task_data: TaskCreate):
+def create_task(task_data: Task):
     ai_reply = client_ai.generate_answer(task_data.title)
     task_data.title = f"{task_data.title} — {ai_reply}"
     task = storage.create_task(task_data)
     return task
 
 @app.put("/tasks/{task_id}", response_model=Task)
-def update_task(task_id: int, task_data: TaskCreate):
+def update_task(task_id: int, task_data: Task):
     ai_reply = client_ai.generate_answer(task_data.title)
     task_data.title = f"{task_data.title} — {ai_reply}"
     task = storage.update_task(task_id, task_data)
